@@ -9,7 +9,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: manifests/applications
-    repoURL: "git@github.com:itgix/adp-az-client-argo-demo.git"
+    repoURL: "https://github.com/itgix/adp-az-client-argo-demo.git"
     targetRevision: HEAD
   project: infra
   syncPolicy:
