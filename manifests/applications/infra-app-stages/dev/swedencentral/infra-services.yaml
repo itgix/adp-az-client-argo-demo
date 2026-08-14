@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: https://dev.azure.com/ITGix/Azure%20Landing%20Zones/_git/adp-argocd-client
+  - repoURL: git@github.com:itgix/adp-az-client-argo-demo.git
     targetRevision: HEAD
     path: helm/infra-services
     helm:
