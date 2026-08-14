@@ -1,0 +1,57 @@
+{{- if index .Values "infra-services" "external_dns_enabled" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  # Add this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  source:
+    repoURL: {{ index .Values "infra-services" "gitops_destination_repo" }}
+    targetRevision:  {{ default "HEAD" (index .Values "infra-services" "external_dns_branch") }}
+    path: helm/external-dns
+    helm:
+      valueFiles:
+        - ../external-dns/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/values.yaml
+        - ../infra-services/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/infra-facts.yaml
+      values: |
+        external-dns:
+          provider:
+            name: {{ index .Values "infra-services" "dns_provider" }}
+          domainFilters:
+            - {{ index .Values "infra-services" "dns_private_zone" }}
+          serviceAccount:
+            name: "external-dns-sa"
+            annotations:
+              azure.workload.identity/client-id: {{ index .Values "infra-services" "dns_client_id" }}
+          podLabels:
+            azure.workload.identity/use: "true"
+          txtOwnerId: {{ index .Values "infra-services" "environment" }}-{{ index .Values "infra-services" "region" }}
+          azure:
+            useWorkloadIdentityExtension: true
+            subscriptionId: {{ index .Values "infra-services" "azure_subscription_id" }}
+            tenantId: {{ index .Values "infra-services" "azure_tenant_id" }}
+            resourceGroup: {{ index .Values "infra-services" "dns_resource_group" }}
+          extraVolumes:
+            - name: azure-config
+              secret:
+                secretName: external-dns-azure-config
+          extraVolumeMounts:
+            - name: azure-config
+              mountPath: /etc/kubernetes
+              readOnly: true
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: external-dns
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  revisionHistoryLimit: 3
+{{- end }}

@@ -1,0 +1,30 @@
+# Add chart overrides for this environment/region here.
+trivy-operator:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  trivyOperator:
+    scanJobConcurrentLimit: 2
+    vulnerabilityReportsPlugin: "Trivy"
+    scanJobTimeout: "5m"
+  operator:
+    vulnerabilityScannerEnabled: true
+    configAuditScannerEnabled: false   # disables config audit scans (fewer pods)
+    rbacAssessmentScannerEnabled: false
+    infraAssessmentScannerEnabled: false
+    clusterComplianceEnabled: false
+
+  trivy:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 300m
+        memory: 512Mi
+    severity: "HIGH,CRITICAL"
+    slow: true

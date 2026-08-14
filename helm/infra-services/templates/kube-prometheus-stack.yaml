@@ -1,0 +1,137 @@
+{{- if index .Values "infra-services" "enable_prometheus_stack" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "1"
+  # Add this finalizer ONLY if you want these to cascade delete.
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  source:
+    repoURL: {{ index .Values "infra-services" "gitops_destination_repo" }}
+    targetRevision:  {{ default "HEAD" (index .Values "infra-services" "prometheus_stack_branch") }}
+    path: helm/kube-prometheus-stack
+    helm:
+      valueFiles:
+        - ../kube-prometheus-stack/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/values.yaml
+        - ../infra-services/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/infra-facts.yaml
+      values: |
+        kube-prometheus-stack:
+          grafana:
+            plugins:
+              - grafana-lokiexplore-app
+              - flant-statusmap-panel
+              - grafana-clock-panel
+            imageRenderer:
+              enabled: false
+            persistence:
+              enabled: false
+            sidecar:
+              dashboards:
+                provider:
+                  name: dashboardsProvider
+                  allowUiUpdates: true
+                  disableDelete: true
+            #assertNoLeakedSecrets: false
+            # grafana.ini:
+            #   server:
+            #     root_url: https://< DOMAIN NAME >
+              users:
+                viewers_can_edit: true
+              auth:
+                disable_login_form: false
+                oauth_auto_login: false
+                datasources:
+                  enabled: false
+                resources:
+                  limits:
+                    cpu: 200m
+                    memory: 156Mi
+                  requests:
+                    cpu: 50m
+                    memory: 100Mi
+            ingress:
+              enabled: true
+              ingressClassName: traefik
+              annotations:
+                traefik.ingress.kubernetes.io/router.entrypoints: web
+                external-dns.alpha.kubernetes.io/hostname: grafana.{{ index .Values "infra-services" "dns_private_zone" }}
+              hosts:
+                - grafana.{{ index .Values "infra-services" "dns_private_zone" }}
+              path: /
+              port: 80
+              # tls:
+              #   - secretName: grafana-ingress-tls     ### Secret must exist
+              #     hosts:
+              #     - < DOMAIN NAME >
+          defaultRules:
+            rules:
+              kubeScheduler: false
+              kubeSchedulerAlerting: false
+              kubeSchedulerRecording: false
+              kubeControllerManager: false
+          kubeProxy:
+            enabled: true
+            service:
+              enabled: true
+              selector:
+                component: "kube-proxy"
+          kubeControllerManager:
+            enabled: false
+            service:
+              enabled: false
+            serviceMonitor:
+              enabled: false
+          kubeScheduler:
+            enabled: false
+            service:
+              enabled: false
+            serviceMonitor:
+              enabled: false
+          prometheus:
+            tls:
+              enabled: false
+            prometheusSpec:        
+              scrapeInterval: 1m 
+              storageSpec:
+                volumeClaimTemplate:
+                  spec:
+                    #storageClassName: < STORAGE CLASS >
+                    accessModes: ["ReadWriteOnce"]
+                    resources:
+                      requests:
+                        storage: 50Gi
+              retention: 60d
+              walCompression: true
+              serviceMonitorNamespaceSelector: {}
+              serviceMonitorSelector: {}
+              serviceMonitorSelectorNilUsesHelmValues: false
+          prometheusOperator:
+            admissionWebhooks:
+              patch:
+                enabled: true 
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: monitoring
+  ignoreDifferences:
+  - group: apps
+    jsonPointers:
+    - /spec/template
+    kind: DaemonSet
+  - group: apps
+    jsonPointers:
+    - /spec/template
+    kind: Deployment
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - PruneLast=true
+  revisionHistoryLimit: 3
+{{- end }}

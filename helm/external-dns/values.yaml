@@ -1,0 +1,6 @@
+external-dns:
+  fullnameOverride: "external-dns"
+  interval: 30m
+  policy: sync
+  registry: txt
+  triggerLoopOnEvent: true

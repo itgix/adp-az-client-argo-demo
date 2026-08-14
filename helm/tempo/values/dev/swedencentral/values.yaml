@@ -1,0 +1,28 @@
+# Add chart overrides for this environment/region here.
+tempo:
+  tempo:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+    storage:
+      trace:
+        backend: azure
+        azure:
+          container_name: tempo-traces
+          storage_account_name: stcontosodevsc
+          use_federated_token: true
+        wal:
+          path: /var/tempo/wal
+
+  serviceAccount:
+    create: true
+    name: tempo-sa
+    annotations:
+      azure.workload.identity/client-id: "1fb12fc1-8e17-4c63-ba1e-0dd0092db288"
+
+  podLabels:
+    azure.workload.identity/use: "true"

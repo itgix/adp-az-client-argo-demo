@@ -1,0 +1,25 @@
+# Add chart overrides for this environment/region here.
+falco:
+  driver:
+    kind: modern_ebpf
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  json_output: true
+  http_output:
+    enabled: true
+    url: "http://falco-falcosidekick:2801/"
+  falcosidekick:
+    enabled: true
+    config:
+      customfields: "env:dev"
+      stdout:
+        enabled: true
+    webui:
+      enabled: false
+      redis:
+        enabled: false

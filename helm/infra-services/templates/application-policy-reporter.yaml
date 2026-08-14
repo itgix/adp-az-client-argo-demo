@@ -1,0 +1,47 @@
+{{- if index .Values "infra-services" "enable_policy_reporter" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: policy-reporter
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  # Add this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  source:
+    repoURL: {{ index .Values "infra-services" "gitops_destination_repo" }}
+    targetRevision:  {{ default "HEAD" (index .Values "infra-services" "policy_reporter_branch") }}
+    path: helm/policy-reporter
+    helm:
+      valueFiles:
+        - ../policy-reporter/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/values.yaml
+        - ../infra-services/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/infra-facts.yaml
+      values: |
+        policy-reporter:
+          ingress:
+            className: "alb"
+            annotations:
+              external-dns.alpha.kubernetes.io/hostname: policies-{{ index .Values "infra-services" "project_name" }}-{{ index .Values "infra-services" "environment" }}-{{ index .Values "infra-services" "region" }}.{{ index .Values "infra-services" "dns_main_domain" }}
+            hosts:
+            - host: policies-{{ index .Values "infra-services" "project_name" }}-{{ index .Values "infra-services" "environment" }}-{{ index .Values "infra-services" "region" }}.{{ index .Values "infra-services" "dns_main_domain" }}
+              paths:
+                - backend:
+                    service:
+                     name: policy-report-ui
+                     port:
+                       number: 8080
+                  pathType: Prefix
+                  path: /
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: kyverno
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  revisionHistoryLimit: 3
+{{- end }}

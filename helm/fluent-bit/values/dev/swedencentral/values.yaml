@@ -1,0 +1,18 @@
+# Add chart overrides for this environment/region here.
+fluent-bit:
+  config:
+    outputs: |
+      [OUTPUT]
+          Name    loki
+          Match   kube.*
+          Host    loki.monitoring.svc.cluster.local
+          Port    3100
+          Labels  job=fluent-bit, stream=kube
+          label_keys  $kubernetes['namespace_name'],$kubernetes['pod_name'],$kubernetes['container_name'],$kubernetes['labels']['app']
+
+      [OUTPUT]
+          Name    loki
+          Match   host.*
+          Host    loki.monitoring.svc.cluster.local
+          Port    3100
+          Labels  job=fluent-bit, stream=host

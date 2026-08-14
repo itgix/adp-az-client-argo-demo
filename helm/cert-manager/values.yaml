@@ -1,0 +1,10 @@
+cert-manager:
+  crds:
+    enabled: true
+  namespace: cert-manager
+
+certManager:
+  useLetsEncrypt: false
+  letsEncryptEmail: ""
+  letsEncryptServer: "https://acme-v02.api.letsencrypt.org/directory"
+  domain: "contoso.internal"

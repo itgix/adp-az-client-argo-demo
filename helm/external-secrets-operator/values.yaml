@@ -1,0 +1,17 @@
+#Required variables
+infra-services:
+  azure_subscription_id: ""
+  azure_tenant_id: ""
+  eso_client_id: ""
+  environment: ""
+  region: ""
+  aks_cluster_name: ""
+
+external-secrets:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 1
+      memory: 128Mi

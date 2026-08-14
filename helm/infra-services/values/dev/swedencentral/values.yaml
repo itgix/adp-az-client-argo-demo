@@ -1,0 +1,19 @@
+infra-services:
+  enable_traefik: true
+  enable_karpenter: false
+  external_dns_enabled: true
+  enable_fluent_bit: true
+  enable_gatekeeper: false
+  enable_kyverno: false
+  enable_loki: true
+  enable_prometheus_stack: true
+  enable_falco: true
+  enable_trivy_operator: true
+  enable_tempo: true
+
+
+storageClass:
+  provisioner: disk.csi.azure.com
+  type: StandardSSD_LRS
+  customParameters:
+    skuName: StandardSSD_LRS

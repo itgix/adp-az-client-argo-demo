@@ -1,0 +1,36 @@
+{{- if index .Values "infra-services" "enable_fluent_bit" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fluent-bit
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "1"
+  # Add this finalizer ONLY if you want these to cascade delete.
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  source:
+    repoURL: {{ index .Values "infra-services" "gitops_destination_repo" }}
+    targetRevision:  {{ default "HEAD" (index .Values "infra-services" "fluent_bit_branch") }}
+    path: helm/fluent-bit
+    helm:
+      valueFiles:
+        - ../fluent-bit/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/values.yaml
+        - ../infra-services/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/infra-facts.yaml
+      values: |
+        fluent-bit:
+          serviceAccount:
+            create: true
+          region: {{ index .Values "infra-services" "region" }}
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: fluent-bit
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  revisionHistoryLimit: 3
+{{- end }}

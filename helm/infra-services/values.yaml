@@ -1,0 +1,37 @@
+infra-services:
+  aws_loadbalancer_enabled: true
+  external_dns_enabled: true
+  external_secrets_enabled: true
+  enable_karpenter: true
+  enable_vpa: false
+  enable_kyverno: false
+  enable_policy_reporter: false
+  enable_default_policies: false
+  demo_app_enabled: false
+  adp_agent_enabled: false
+  enable_fluent_bit: false
+  enable_prometheus_stack: false
+  enable_tempo: false
+  enable_loki: false
+  backstage_enabled: false
+  enable_devlake: false
+  enable_gatekeeper: false
+
+  aws-load-balancer-controller-version: 1.7.1
+  secrets-operator-version: 0.9.12
+  external-dns-version: HEAD
+  storage_class_custom_params_enabled: false
+
+
+  aws_account_id: ~
+  region: ~
+  eks_cluster_name: ~
+  vpc_id: ~
+  dns_hosted_zone: ~
+
+
+storageClass:
+  provisioner: disk.csi.azure.com
+  type: StandardSSD_LRS
+  customParameters:
+    skuName: StandardSSD_LRS

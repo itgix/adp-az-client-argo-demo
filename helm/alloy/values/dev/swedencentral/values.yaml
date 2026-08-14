@@ -1,0 +1,60 @@
+alloy:
+  alloy:
+    extraPorts:
+      - name: otlp-grpc
+        port: 4317
+        targetPort: 4317
+        protocol: TCP
+      - name: otlp-http
+        port: 4318
+        targetPort: 4318
+        protocol: TCP
+
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+
+    content: |
+      // Receive OTLP traces from instrumented apps (gRPC + HTTP)
+      otelcol.receiver.otlp "default" {
+        grpc {
+          endpoint = "0.0.0.0:4317"
+        }
+        http {
+          endpoint = "0.0.0.0:4318"
+        }
+        output {
+          traces = [otelcol.processor.k8sattributes.default.input]
+        }
+      }
+
+      // Enrich traces with Kubernetes pod/namespace/node metadata
+      otelcol.processor.k8sattributes "default" {
+        output {
+          traces = [otelcol.processor.batch.default.input]
+        }
+      }
+
+      // Batch before forwarding to reduce requests
+      otelcol.processor.batch "default" {
+        output {
+          traces = [otelcol.exporter.otlp.tempo.input]
+        }
+      }
+
+      // Forward to Tempo
+      otelcol.exporter.otlp "tempo" {
+        client {
+          endpoint = "tempo.monitoring.svc.cluster.local:4317"
+          tls {
+            insecure = true
+          }
+        }
+      }
+
+  controller:
+    type: daemonset
