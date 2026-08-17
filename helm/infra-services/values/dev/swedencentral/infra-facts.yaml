@@ -24,7 +24,7 @@ infra-services:
   dns_main_domain: contoso.itgix.eu
   dns_private_zone: adp.csiliev.eu
   dns_provider: azure-dns
-  dns_resource_group: rg-aks-dev-swedencentral
+  dns_resource_group: rg-network-dev-swedencentral
   enable_devlake: false
   enable_eso: false
   enable_falco: false
