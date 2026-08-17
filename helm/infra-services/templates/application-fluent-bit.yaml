@@ -17,7 +17,6 @@ spec:
     helm:
       valueFiles:
         - ../fluent-bit/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/values.yaml
-        - ../infra-services/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/infra-facts.yaml
       values: |
         fluent-bit:
           serviceAccount:
@@ -34,4 +33,3 @@ spec:
       - CreateNamespace=true
   revisionHistoryLimit: 3
 {{- end }}
-
