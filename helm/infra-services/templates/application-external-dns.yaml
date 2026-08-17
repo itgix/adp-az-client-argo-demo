@@ -17,7 +17,6 @@ spec:
     helm:
       valueFiles:
         - ../external-dns/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/values.yaml
-        - ../infra-services/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/infra-facts.yaml
       values: |
         external-dns:
           provider:
@@ -27,7 +26,7 @@ spec:
           serviceAccount:
             name: "external-dns-sa"
             annotations:
-              azure.workload.identity/client-id: {{ index .Values "infra-services" "dns_client_id" }}
+              azure.workload.identity/client-id: "{{ index .Values "infra-services" "dns_client_id" }}"
           podLabels:
             azure.workload.identity/use: "true"
           txtOwnerId: {{ index .Values "infra-services" "environment" }}-{{ index .Values "infra-services" "region" }}
