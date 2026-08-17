@@ -1,13 +1,13 @@
 infra-services:
   adp_agent_enabled: false
-  aks_cluster_fqdn: tbdrl5ijhh-xex1342a.hcp.swedencentral.azmk8s.io
+  aks_cluster_fqdn: kltqkik15u-v4mmf64i.hcp.swedencentral.azmk8s.io
   aks_cluster_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-aks-dev-swedencentral/providers/Microsoft.ContainerService/managedClusters/aks-contoso-dev-swedencentral
   aks_cluster_name: aks-contoso-dev-swedencentral
   aks_cluster_version: '1.36'
-  aks_controlplane_identity_client_id: a7b59269-a84c-4665-abbd-b8679aee09b6
+  aks_controlplane_identity_client_id: 082b80a9-542c-4461-8739-9ac611c46074
   aks_controlplane_identity_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-aks-dev-swedencentral/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-aks-controlplane-dev-swedencentral
-  aks_kubelet_identity_client_id: 87fc2e0f-7362-49e3-ade9-178386fcec4c
-  aks_oidc_issuer_url: https://swedencentral.oic.prod-aks.azure.com/35e55793-1d03-4bb1-99a3-4888c2cda0e0/1793b7cb-cf30-4711-8a02-74bd53dfeaf8/
+  aks_kubelet_identity_client_id: f29074d5-6a9d-4011-a2fd-e89fa5f2f547
+  aks_oidc_issuer_url: https://swedencentral.oic.prod-aks.azure.com/35e55793-1d03-4bb1-99a3-4888c2cda0e0/e19febfc-8721-4abc-a03a-dd259a0513ce/
   aks_outbound_type: loadBalancer
   aks_private_cluster: false
   aks_private_dns_zone_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/privateDnsZones/contoso.privatelink.swedencentral.azmk8s.io
@@ -21,6 +21,7 @@ infra-services:
   dns_main_domain: contoso.itgix.eu
   enable_devlake: false
   enable_eso: false
+  enable_falco: false
   enable_fluent_bit: false
   enable_kyverno: false
   enable_kyverno_policies: false
@@ -28,6 +29,7 @@ infra-services:
   enable_policy_reporter: false
   enable_prometheus_stack: true
   enable_tempo: false
+  enable_trivy_operator: true
   enable_vpa: false
   enabled_metrics_server: true
   env_git_repo: git@github.com:itgix/adp-az-tfinfra-demo.git
@@ -53,7 +55,7 @@ infra-services:
   subnet_aks_nodes_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/virtualNetworks/vnet-dev-swedencentral/subnets/snet-aks-nodes-dev-swedencentral
   terraform_ver: 1.15.8
   vnet_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/virtualNetworks/vnet-dev-swedencentral
-  workload_dns_identity_client_id: 0cfcc8d5-4d8b-442a-95a3-6e4e7afcea5f
-  workload_eso_identity_client_id: 0d54339d-514d-436f-8be6-f4c2ba4d898f
+  workload_dns_identity_client_id: 54e53a72-5cfc-4e81-8b9c-061f333492a3
+  workload_eso_identity_client_id: f724449a-bcad-484b-9764-3e9e67d94bd7
   workload_private_dns_zone_ids: {}
   workload_public_dns_zone_ids: {}

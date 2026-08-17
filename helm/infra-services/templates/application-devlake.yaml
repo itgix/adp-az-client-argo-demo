@@ -36,3 +36,4 @@ spec:
       - Replace=true
   revisionHistoryLimit: 3
 {{- end }}
+

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nginx-app-1
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: nginx-app-1
@@ -19,3 +19,18 @@ spec:
         image: nginx:latest
         ports:
         - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-app-1
+  labels:
+    app: nginx-app-1
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx-app-1
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP

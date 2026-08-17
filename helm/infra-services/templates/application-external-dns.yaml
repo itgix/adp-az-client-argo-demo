@@ -17,7 +17,6 @@ spec:
     helm:
       valueFiles:
         - ../external-dns/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/values.yaml
-        - ../infra-services/values/{{ index .Values "infra-services" "environment" }}/{{ index .Values "infra-services" "region" }}/infra-facts.yaml
       values: |
         external-dns:
           provider:
@@ -55,3 +54,4 @@ spec:
       - CreateNamespace=true
   revisionHistoryLimit: 3
 {{- end }}
+
