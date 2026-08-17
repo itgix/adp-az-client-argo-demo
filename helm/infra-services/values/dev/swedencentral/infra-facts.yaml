@@ -19,6 +19,9 @@ infra-services:
   budget_enabled: false
   cloud: azure
   dns_main_domain: contoso.itgix.eu
+  dns_private_zone: adp.csiliev.eu
+  dns_provider: azure-dns
+  dns_resource_group: rg-aks-dev-swedencentral
   enable_devlake: false
   enable_eso: false
   enable_falco: false
@@ -58,4 +61,5 @@ infra-services:
   workload_dns_identity_client_id: 74f1ccb4-0e62-4a79-8517-2b5c456db3b5
   workload_eso_identity_client_id: 529c54b7-bd35-4fe6-b528-6db470bebbc2
   workload_private_dns_zone_ids: {}
-  workload_public_dns_zone_ids: {}
+  workload_public_dns_zone_ids:
+    adp.csiliev.eu: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/dnsZones/adp.csiliev.eu
