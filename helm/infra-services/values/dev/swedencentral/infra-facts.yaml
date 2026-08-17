@@ -20,6 +20,7 @@ infra-services:
   backstage_enabled: false
   budget_enabled: false
   cloud: azure
+  dns_client_id: ''
   dns_main_domain: contoso.itgix.eu
   dns_private_zone: adp.csiliev.eu
   dns_provider: azure-dns
