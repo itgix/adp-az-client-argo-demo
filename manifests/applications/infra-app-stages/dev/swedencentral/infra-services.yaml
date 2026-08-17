@@ -14,8 +14,8 @@ spec:
     path: helm/infra-services
     helm:
       valueFiles:
-      - values/dev/swedencentral/infra-facts.yaml
       - values/dev/swedencentral/values.yaml
+      - values/dev/swedencentral/infra-facts.yaml
       ignoreMissingValueFiles: true
   destination:
     namespace: argocd
