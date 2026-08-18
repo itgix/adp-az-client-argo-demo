@@ -40,8 +40,13 @@ metadata:
   name: nginx-app-1
   annotations:
     external-dns.alpha.kubernetes.io/hostname: nginx.adp.csiliev.eu
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: traefik
+  tls:
+  - hosts:
+    - nginx.adp.csiliev.eu
+    secretName: nginx-app-1-tls
   rules:
   - host: nginx.adp.csiliev.eu
     http:

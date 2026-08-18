@@ -25,6 +25,7 @@ infra-services:
   dns_private_zone: adp.csiliev.eu
   dns_provider: azure-dns
   dns_resource_group: rg-network-dev-swedencentral
+  enable_cert_manager: true
   enable_devlake: false
   enable_eso: false
   enable_falco: false
@@ -46,6 +47,7 @@ infra-services:
   external_secrets_enabled: false
   gitops_destination_repo: https://github.com/itgix/adp-az-client-argo-demo.git
   gitops_template_repo: git@github.com:itgix/adp-argo-az-repo.git
+  gitops_template_repo_branch: feature/adapt-helm-apps-for-azure
   project_name: contoso
   provision_aks: true
   provision_identities: true

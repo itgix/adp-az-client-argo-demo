@@ -1,88 +1,19 @@
-{{- if .Values.certManager.useLetsEncrypt }}
----
+{{- if .Values.defaultAcmeIssuer.enabled }}
+{{- if not .Values.defaultAcmeIssuer.email }}
+{{- fail "defaultAcmeIssuer.email is required when defaultAcmeIssuer.enabled=true" }}
+{{- end }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
+  name: {{ .Values.defaultAcmeIssuer.name }}
 spec:
   acme:
-    email: {{ .Values.certManager.letsEncryptEmail }}
-    server: {{ .Values.certManager.letsEncryptServer }}
+    email: {{ .Values.defaultAcmeIssuer.email | quote }}
+    server: {{ .Values.defaultAcmeIssuer.server | quote }}
     privateKeySecretRef:
-      name: letsencrypt-account-key
+      name: {{ .Values.defaultAcmeIssuer.name }}-account-key
     solvers:
-      - http01:
-          ingress:
-            class: traefik
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: wildcard-public
-  namespace: traefik
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-spec:
-  secretName: wildcard-internal-tls
-  issuerRef:
-    name: letsencrypt
-    kind: ClusterIssuer
-  dnsNames:
-    - "*.{{ .Values.certManager.domain }}"
-{{- else }}
----
-# Step 1: bootstrap self-signed issuer
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: selfsigned
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-spec:
-  selfSigned: {}
----
-# Step 2: issue the internal root CA certificate
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: internal-ca
-  namespace: cert-manager
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-spec:
-  isCA: true
-  commonName: internal-ca
-  secretName: internal-ca-secret
-  issuerRef:
-    name: selfsigned
-    kind: ClusterIssuer
----
-# Step 3: CA issuer backed by the root CA
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: internal-ca
-  annotations:
-    argocd.argoproj.io/sync-wave: "4"
-spec:
-  ca:
-    secretName: internal-ca-secret
----
-# Step 4: wildcard certificate for the private DNS zone
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: wildcard-internal
-  namespace: traefik
-  annotations:
-    argocd.argoproj.io/sync-wave: "5"
-spec:
-  secretName: wildcard-internal-tls
-  issuerRef:
-    name: internal-ca
-    kind: ClusterIssuer
-  dnsNames:
-    - "*.{{ .Values.certManager.domain }}"
+    - http01:
+        ingress:
+          ingressClassName: {{ .Values.defaultAcmeIssuer.ingressClassName | quote }}
 {{- end }}
