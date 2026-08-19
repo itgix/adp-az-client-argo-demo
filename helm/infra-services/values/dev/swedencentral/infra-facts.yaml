@@ -29,7 +29,7 @@ infra-services:
   enable_devlake: false
   enable_eso: true
   enable_falco: false
-  enable_fluent_bit: false
+  enable_fluent_bit: true
   enable_kyverno: false
   enable_kyverno_policies: false
   enable_loki: true
