@@ -44,7 +44,7 @@ infra-services:
   env_template_repo_branch: develop
   environment: dev
   external_dns_enabled: true
-  external_secrets_enabled: false
+  external_secrets_enabled: true
   gitops_destination_repo: https://github.com/itgix/adp-az-client-argo-demo.git
   gitops_template_repo: git@github.com:itgix/adp-argo-az-repo.git
   gitops_template_repo_branch: feature/adapt-helm-apps-for-azure
