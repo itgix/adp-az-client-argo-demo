@@ -1,5 +1,13 @@
 # Add chart overrides for this environment/region here.
 fluent-bit:
+  resources:
+    limits:
+      cpu: 50m
+      memory: 128Mi
+    requests:
+      cpu: 20m
+      memory: 64Mi
+  
   config:
     outputs: |
       [OUTPUT]
