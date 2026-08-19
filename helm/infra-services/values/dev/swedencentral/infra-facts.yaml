@@ -27,7 +27,7 @@ infra-services:
   dns_resource_group: rg-network-dev-swedencentral
   enable_cert_manager: true
   enable_devlake: false
-  enable_eso: false
+  enable_eso: true
   enable_falco: false
   enable_fluent_bit: false
   enable_kyverno: false
