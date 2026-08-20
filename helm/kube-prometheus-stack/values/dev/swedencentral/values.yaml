@@ -1,6 +1,17 @@
 # Add chart overrides for this environment/region here.
 kube-prometheus-stack:
   grafana:
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      hosts:
+        - grafana-dev.contoso.itgix.eu
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+      tls:
+        - secretName: grafana-tls
+          hosts:
+            - grafana-dev.contoso.itgix.eu
     additionalDataSources:
       - name: Loki
         type: loki
