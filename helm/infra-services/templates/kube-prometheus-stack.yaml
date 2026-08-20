@@ -57,16 +57,17 @@ spec:
               enabled: true
               ingressClassName: traefik
               annotations:
-                traefik.ingress.kubernetes.io/router.entrypoints: web
+                cert-manager.io/cluster-issuer: letsencrypt
+                traefik.ingress.kubernetes.io/router.entrypoints: websecure
                 external-dns.alpha.kubernetes.io/hostname: grafana.{{ index .Values "infra-services" "dns_private_zone" }}
               hosts:
                 - grafana.{{ index .Values "infra-services" "dns_private_zone" }}
               path: /
               port: 80
-              # tls:
-              #   - secretName: grafana-ingress-tls     ### Secret must exist
-              #     hosts:
-              #     - < DOMAIN NAME >
+              tls:
+                - secretName: grafana-tls
+                  hosts:
+                    - grafana.{{ index .Values "infra-services" "dns_private_zone" }}
           defaultRules:
             rules:
               kubeScheduler: false
