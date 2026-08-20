@@ -5,13 +5,13 @@ kube-prometheus-stack:
       enabled: true
       ingressClassName: traefik
       hosts:
-        - grafana-dev.contoso.itgix.eu
+        - grafana.adp.csiliev.eu
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
       tls:
         - secretName: grafana-tls
           hosts:
-            - grafana-dev.contoso.itgix.eu
+            - grafana.adp.csiliev.eu
     additionalDataSources:
       - name: Loki
         type: loki

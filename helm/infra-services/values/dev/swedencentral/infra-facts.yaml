@@ -41,7 +41,7 @@ infra-services:
   enabled_metrics_server: true
   env_git_repo: git@github.com:itgix/adp-az-tfinfra-demo.git
   env_template_repo: git@github.com:itgix/adp-tf-envtemplate-standard-az.git
-  env_template_repo_branch: feature/add-additional-resources
+  env_template_repo_branch: develop
   environment: dev
   external_dns_enabled: true
   external_secrets_enabled: true
