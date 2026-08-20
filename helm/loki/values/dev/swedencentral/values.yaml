@@ -28,7 +28,7 @@ loki:
     create: true
     name: loki-sa
     annotations:
-      azure.workload.identity/client-id: {{ index .Values "infra-services" "workload_loki_identity_client_id" | default "" | quote }}
+      azure.workload.identity/client-id: "{{ index .Values \"infra-services\" \"workload_loki_identity_client_id\" | default \"\" }}"
 
   singleBinary:
     replicas: 1
