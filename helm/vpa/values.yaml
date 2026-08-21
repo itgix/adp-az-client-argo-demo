@@ -18,18 +18,16 @@ vpa:
     # Extra arguments for the recommender
     extraArgs:
       v: "4"
-      pod-recommendation-min-cpu-millicores: 25
-      pod-recommendation-min-memory-mb: 250
+      pod-recommendation-min-cpu-millicores: "25"
+      pod-recommendation-min-memory-mb: "250"
       # Recommendation applies only if container memory peaks in the last 8 days
-      memory-aggregation-interval: 1d
-      memory-aggregation-interval-count: 8
+      memory-aggregation-interval: 24h0m0s
+      memory-aggregation-interval-count: "8"
       # Recommendation applies if container CPU usage peaks in the last 8 days  
       cpu-histogram-decay-half-life: 24h0m0s
       # Check for pod changes every 1 minute
       recommender-interval: 1m0s
-    
-    # Use Prometheus for historical data (recommended)
-    extraArgs:
+      # Use Prometheus for historical data (recommended)
       storage: prometheus
       prometheus-address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
       prometheus-query-timeout: 5m
@@ -49,9 +47,9 @@ vpa:
     
     extraArgs:
       v: "4"
-      min-replicas: 2
+      min-replicas: "2"
       # Eviction tolerance
-      eviction-tolerance: 0.5
+      eviction-tolerance: "0.5"
       # Evict at most 1 pod at a time
       evict-after-oom-threshold: 10m0s
     
