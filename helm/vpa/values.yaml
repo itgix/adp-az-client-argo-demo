@@ -1,0 +1,95 @@
+vpa:
+  # Default values for the VPA subchart
+  # ref: https://github.com/FairwindsOps/charts/tree/master/stable/vpa
+  
+  # Recommender configuration
+  recommender:
+    enabled: true
+    replicaCount: 1
+    
+    resources:
+      limits:
+        cpu: 200m
+        memory: 1000Mi
+      requests:
+        cpu: 50m
+        memory: 500Mi
+    
+    # Extra arguments for the recommender
+    extraArgs:
+      v: "4"
+      pod-recommendation-min-cpu-millicores: 25
+      pod-recommendation-min-memory-mb: 250
+      # Recommendation applies only if container memory peaks in the last 8 days
+      memory-aggregation-interval: 1d
+      memory-aggregation-interval-count: 8
+      # Recommendation applies if container CPU usage peaks in the last 8 days  
+      cpu-histogram-decay-half-life: 24h0m0s
+      # Check for pod changes every 1 minute
+      recommender-interval: 1m0s
+    
+    # Use Prometheus for historical data (recommended)
+    extraArgs:
+      storage: prometheus
+      prometheus-address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+      prometheus-query-timeout: 5m
+    
+  # Updater configuration
+  updater:
+    enabled: true
+    replicaCount: 1
+    
+    resources:
+      limits:
+        cpu: 200m
+        memory: 1000Mi
+      requests:
+        cpu: 50m
+        memory: 500Mi
+    
+    extraArgs:
+      v: "4"
+      min-replicas: 2
+      # Eviction tolerance
+      eviction-tolerance: 0.5
+      # Evict at most 1 pod at a time
+      evict-after-oom-threshold: 10m0s
+    
+  # Admission Controller configuration
+  admissionController:
+    enabled: true
+    replicaCount: 1
+    
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 50m
+        memory: 200Mi
+    
+    extraArgs:
+      v: "4"
+    
+    # Generate a self-signed certificate
+    generateCertificate: true
+    
+    # Cleanup on uninstall
+    cleanupOnDelete:
+      enabled: true
+    
+    # Mutating webhook configuration
+    mutatingWebhookConfiguration:
+      failurePolicy: Ignore
+      
+  # Metrics Server (usually already installed in AKS)
+  metrics-server:
+    enabled: false
+    
+  # Service monitor for Prometheus Operator
+  serviceMonitor:
+    enabled: false
+    # Enable this if you want VPA metrics scraped by Prometheus
+    # enabled: true
+    # namespace: autoscaling
+    # interval: 30s

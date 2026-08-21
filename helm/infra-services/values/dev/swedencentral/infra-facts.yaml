@@ -37,7 +37,7 @@ infra-services:
   enable_prometheus_stack: true
   enable_tempo: false
   enable_trivy_operator: true
-  enable_vpa: false
+  enable_vpa: true
   enabled_metrics_server: true
   env_git_repo: git@github.com:itgix/adp-az-tfinfra-demo.git
   env_template_repo: git@github.com:itgix/adp-tf-envtemplate-standard-az.git

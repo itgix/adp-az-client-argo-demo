@@ -1,0 +1,57 @@
+# Environment-specific overrides for VPA in dev/swedencentral
+vpa:
+  recommender:
+    # For dev, use smaller resources
+    resources:
+      limits:
+        cpu: 100m
+        memory: 512Mi
+      requests:
+        cpu: 25m
+        memory: 256Mi
+    
+    # Connect to Prometheus in monitoring namespace
+    extraArgs:
+      storage: prometheus
+      prometheus-address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+      prometheus-query-timeout: 5m
+      v: "4"
+      pod-recommendation-min-cpu-millicores: 25
+      pod-recommendation-min-memory-mb: 128
+      memory-aggregation-interval: 1d
+      memory-aggregation-interval-count: 8
+      cpu-histogram-decay-half-life: 24h0m0s
+      recommender-interval: 1m0s
+  
+  updater:
+    # For dev, use smaller resources
+    resources:
+      limits:
+        cpu: 100m
+        memory: 512Mi
+      requests:
+        cpu: 25m
+        memory: 256Mi
+    
+    extraArgs:
+      v: "4"
+      min-replicas: 1  # Dev can have single replicas
+      eviction-tolerance: 0.5
+      evict-after-oom-threshold: 10m0s
+  
+  admissionController:
+    # For dev, use smaller resources
+    resources:
+      limits:
+        cpu: 100m
+        memory: 256Mi
+      requests:
+        cpu: 25m
+        memory: 128Mi
+    
+    extraArgs:
+      v: "4"
+    
+    mutatingWebhookConfiguration:
+      # In dev, ignore failures to avoid blocking deployments
+      failurePolicy: Ignore

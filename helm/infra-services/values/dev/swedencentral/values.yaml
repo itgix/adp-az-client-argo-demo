@@ -10,6 +10,7 @@ infra-services:
   enable_falco: true
   enable_trivy_operator: true
   enable_tempo: true
+  enable_vpa: true
 
 
 storageClass:
