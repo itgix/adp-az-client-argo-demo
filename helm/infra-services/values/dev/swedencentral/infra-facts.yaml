@@ -32,7 +32,7 @@ infra-services:
   dns_resource_group: rg-network-dev-swedencentral
   enable_cert_manager: true
   enable_devlake: false
-  enable_eso: false
+  enable_eso: true
   enable_falco: false
   enable_fluent_bit: false
   enable_kyverno: false
@@ -49,7 +49,7 @@ infra-services:
   env_template_repo_branch: develop
   environment: dev
   external_dns_enabled: true
-  external_secrets_enabled: false
+  external_secrets_enabled: true
   gitops_destination_repo: https://github.com/itgix/adp-az-client-argo-demo.git
   gitops_template_repo: git@github.com:itgix/adp-argo-az-repo.git
   gitops_template_repo_branch: feature/adapt-helm-apps-for-azure
