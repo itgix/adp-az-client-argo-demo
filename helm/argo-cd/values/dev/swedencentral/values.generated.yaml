@@ -1,7 +1,7 @@
 server:
   ingress:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: contoso-swedencentral-argocd-dev.contoso.itgix.eu
+      external-dns.alpha.kubernetes.io/hostname: contoso-swedencentral-argocd-dev.adp.csiliev.eu
     controller: generic
-    hostname: contoso-swedencentral-argocd-dev.contoso.itgix.eu
+    hostname: contoso-swedencentral-argocd-dev.adp.csiliev.eu
     ingressClassName: nginx

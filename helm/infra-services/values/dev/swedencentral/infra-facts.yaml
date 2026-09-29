@@ -21,7 +21,7 @@ infra-services:
   budget_enabled: false
   cloud: azure
   dns_client_id: ''
-  dns_main_domain: contoso.itgix.eu
+  dns_main_domain: adp.csiliev.eu
   dns_private_zone: adp.csiliev.eu
   dns_provider: azure-dns
   dns_resource_group: rg-network-dev-swedencentral
