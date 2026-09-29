@@ -32,7 +32,7 @@ infra-services:
   enable_fluent_bit: false
   enable_kyverno: false
   enable_kyverno_policies: false
-  enable_loki: true
+  enable_loki: false
   enable_policy_reporter: false
   enable_prometheus_stack: true
   enable_tempo: false
