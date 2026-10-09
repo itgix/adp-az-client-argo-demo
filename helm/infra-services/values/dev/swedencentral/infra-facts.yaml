@@ -1,13 +1,13 @@
 infra-services:
   adp_agent_enabled: false
-  aks_cluster_fqdn: hik42lpjzx-zgh92xm5.hcp.swedencentral.azmk8s.io
+  aks_cluster_fqdn: h2g7whswpr-tpgi8q1x.hcp.swedencentral.azmk8s.io
   aks_cluster_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-aks-dev-swedencentral/providers/Microsoft.ContainerService/managedClusters/aks-contoso-dev-swedencentral
   aks_cluster_name: aks-contoso-dev-swedencentral
   aks_cluster_version: '1.36'
-  aks_controlplane_identity_client_id: adf95030-409e-41c3-a2fe-7bd661aa52f6
+  aks_controlplane_identity_client_id: 2d532128-9677-44ce-a025-3b14da81120a
   aks_controlplane_identity_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-aks-dev-swedencentral/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-aks-controlplane-dev-swedencentral
-  aks_kubelet_identity_client_id: 6e9c5e2c-a32e-4bc9-bbad-1cc7b3a613e2
-  aks_oidc_issuer_url: https://swedencentral.oic.prod-aks.azure.com/35e55793-1d03-4bb1-99a3-4888c2cda0e0/39470131-b1a0-40fb-864a-0916955a47f0/
+  aks_kubelet_identity_client_id: 764bb011-5a49-46c8-9588-582f5b0c68b9
+  aks_oidc_issuer_url: https://swedencentral.oic.prod-aks.azure.com/35e55793-1d03-4bb1-99a3-4888c2cda0e0/7df6b166-6a30-4685-b29c-b64b3b41177f/
   aks_outbound_type: loadBalancer
   aks_private_cluster: false
   aks_private_dns_zone_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/privateDnsZones/contoso.privatelink.swedencentral.azmk8s.io
@@ -55,10 +55,7 @@ infra-services:
   postgresql_high_availability: false
   postgresql_manage_dns: true
   postgresql_private_networking: false
-  postgresql_server_fqdn: psql-contoso-dev-swedencentral.postgres.database.azure.com
-  postgresql_server_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-aks-dev-swedencentral/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-contoso-dev-swedencentral
-  postgresql_server_name: psql-contoso-dev-swedencentral
-  postgresql_sku_name: B_Standard_B1ms
+  postgresql_sku_name: B_Standard_B2s
   postgresql_storage_mb: 32768
   postgresql_storage_tier: P4
   postgresql_version: '16'
@@ -67,7 +64,7 @@ infra-services:
   provision_aks: true
   provision_identities: true
   provision_kubelet_identity: true
-  provision_postgresql: true
+  provision_postgresql: false
   provision_vnet: false
   region: swedencentral
   region_short: sc
@@ -80,7 +77,7 @@ infra-services:
   subnet_postgresql_cidr: 10.10.3.0/24
   terraform_ver: 1.15.8
   vnet_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/virtualNetworks/vnet-dev-swedencentral
-  workload_dns_identity_client_id: 142b2fbe-1f7e-4021-97df-c35d9637486f
-  workload_eso_identity_client_id: 03a870f7-5d9b-4ebf-a151-6a156296d1fc
+  workload_dns_identity_client_id: bd9bde54-b14a-48f6-b88d-5060361f880f
+  workload_eso_identity_client_id: fa1886dc-c1b2-47c6-9b38-e6cd2797d0eb
   workload_private_dns_zone_ids: {}
   workload_public_dns_zone_ids: {}
