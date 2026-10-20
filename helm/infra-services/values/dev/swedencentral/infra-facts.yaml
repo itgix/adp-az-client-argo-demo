@@ -34,11 +34,11 @@ infra-services:
   enable_kyverno_policies: false
   enable_loki: false
   enable_policy_reporter: false
-  enable_prometheus_stack: true
+  enable_prometheus_stack: false
   enable_tempo: false
   enable_trivy_operator: false
-  enable_vpa: true
-  enabled_metrics_server: true
+  enable_vpa: false
+  enabled_metrics_server: false
   env_git_repo: git@github.com:itgix/adp-az-tfinfra-demo.git
   env_template_repo: git@github.com:itgix/adp-tf-envtemplate-standard-az.git
   env_template_repo_branch: develop
