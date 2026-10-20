@@ -1,4 +1,11 @@
 {{- if index .Values "infra-services" "enable_prometheus_stack" }}
+{{- $infraServices := index .Values "infra-services" }}
+{{- $cloud := default "aws" (index $infraServices "cloud") }}
+{{- $dnsDomain := ternary (index $infraServices "dns_private_zone") (index $infraServices "dns_main_domain") (eq $cloud "azure") }}
+{{- $grafanaIngressHost := index $infraServices "grafana_ingress_host" | default (printf "grafana.%s" $dnsDomain) }}
+{{- $alertmanagerIngressHost := index $infraServices "alertmanager_ingress_host" | default (printf "alertmanager-%s.%s" (index $infraServices "region") $dnsDomain) }}
+{{- $prometheusIngressHost := index $infraServices "prometheus_ingress_host" | default (printf "prometheus-%s.%s" (index $infraServices "region") $dnsDomain) }}
+{{- $monitoringIngressPath := ternary "/" "/*" (eq $cloud "gcp") }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -22,23 +29,23 @@ spec:
         kube-prometheus-stack:
           grafana:
             plugins:
-              - grafana-lokiexplore-app
               - flant-statusmap-panel
               - grafana-clock-panel
+{{- if eq $cloud "azure" }}
+              - grafana-lokiexplore-app
+{{- end }}
             imageRenderer:
               enabled: false
+{{- if eq $cloud "azure" }}
             persistence:
               enabled: false
+{{- end }}
             sidecar:
               dashboards:
                 provider:
                   name: dashboardsProvider
                   allowUiUpdates: true
                   disableDelete: true
-            #assertNoLeakedSecrets: false
-            # grafana.ini:
-            #   server:
-            #     root_url: https://< DOMAIN NAME >
               users:
                 viewers_can_edit: true
               auth:
@@ -55,19 +62,19 @@ spec:
                     memory: 100Mi
             ingress:
               enabled: true
-              ingressClassName: traefik
+              ingressClassName: {{ include "infra-services.ingressClassName" (dict "infraServices" $infraServices "app" "grafana") }}
               annotations:
-                cert-manager.io/cluster-issuer: letsencrypt
-                traefik.ingress.kubernetes.io/router.entrypoints: websecure
-                external-dns.alpha.kubernetes.io/hostname: grafana.{{ index .Values "infra-services" "dns_private_zone" }}
+{{ include "infra-services.ingressAnnotations" (dict "infraServices" $infraServices "app" "grafana" "host" $grafanaIngressHost "managedCertificateName" "grafana" "frontendConfigName" "grafana") | nindent 16 }}
               hosts:
-                - grafana.{{ index .Values "infra-services" "dns_private_zone" }}
+                - {{ $grafanaIngressHost }}
               path: /
               port: 80
+{{- if eq $cloud "azure" }}
               tls:
                 - secretName: grafana-tls
                   hosts:
-                    - grafana.{{ index .Values "infra-services" "dns_private_zone" }}
+                    - {{ $grafanaIngressHost }}
+{{- end }}
           defaultRules:
             rules:
               kubeScheduler: false
@@ -96,17 +103,18 @@ spec:
             tls:
               enabled: false
             prometheusSpec:        
-              scrapeInterval: 1m 
+              scrapeInterval: 1m
+              walCompression: true
+{{- if eq $cloud "azure" }}
               storageSpec:
                 volumeClaimTemplate:
                   spec:
-                    #storageClassName: < STORAGE CLASS >
                     accessModes: ["ReadWriteOnce"]
                     resources:
                       requests:
                         storage: 50Gi
               retention: 60d
-              walCompression: true
+{{- end }}
               serviceMonitorNamespaceSelector: {}
               serviceMonitorSelector: {}
               serviceMonitorSelectorNilUsesHelmValues: false

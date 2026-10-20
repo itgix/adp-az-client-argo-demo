@@ -1,4 +1,5 @@
-{{- if index .Values "infra-services" "enable_karpenter" }}
+{{- $cloud := default "aws" (index .Values "infra-services" "cloud") -}}
+{{- if and (eq $cloud "aws") (index .Values "infra-services" "enable_karpenter") }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -47,6 +48,11 @@ spec:
             Environment: {{ index .Values "infra-services" "environment" }}
             CostCenter: na
             Application: adp
+            aws-apn-id: "pc:5uhf95x0bz6d518p795cfi07s"
+          {{- if index .Values "infra-services" "karpenter_instance_type_enabled" }}
+          instanceType:
+            enabled: true
+          {{- end }}
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: karpenter
@@ -58,4 +64,3 @@ spec:
       - CreateNamespace=true
   revisionHistoryLimit: 3
 {{- end }}
-

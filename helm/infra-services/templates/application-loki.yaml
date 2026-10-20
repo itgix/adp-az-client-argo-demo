@@ -32,4 +32,3 @@ spec:
       - CreateNamespace=true
   revisionHistoryLimit: 3
 {{- end }}
-

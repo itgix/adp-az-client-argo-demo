@@ -70,8 +70,8 @@ backstage:
               signIn:
                 resolvers:
                   - resolver: usernameMatchingUserEntityName
-          guest:
-            dangerouslyAllowOutsideDevelopment: true
+          #guest:
+          #  dangerouslyAllowOutsideDevelopment: true
 
       signInPage: github
 
@@ -89,6 +89,7 @@ backstage:
       catalog:
         logLevel: debug
         locations:
+          # Scaffolder forms, registered one by one.
           - type: url
             target: https://github.com/itgix/adp-backstage-scaffold/blob/main/argo-helm-templates/bckstg-scaf-templ-argocd-app-github.yaml
             rules:
@@ -97,6 +98,12 @@ backstage:
             target: https://github.com/itgix/adp-backstage-scaffold/blob/main/argo-helm-templates/bckstg-scaf-templ-argocd-app-gitlab.yaml
             rules:
               - allow: [Template]
+          # Optional platform applications (DevLake, ...). New ones are added to this file
+          # in the scaffold repo, not here.
+          - type: url
+            target: https://github.com/itgix/adp-backstage-scaffold/blob/main/catalog-info.yaml
+            rules:
+              - allow: [Location, Template]
           - type: file
             target: ./examples/org.yaml
             rules:
@@ -107,7 +114,7 @@ backstage:
           parameters:
             sampleStaticParam: "testValue"
           secrets:
-            region: ${AWS_REGION}
+            region: ${CLOUD_REGION}
             repoName: ${GIT_APP_REPO}
             repoOwner: ${GIT_APP_OWNER}
 

@@ -1,22 +1,57 @@
 infra-services:
+  cloud: aws
   aws_loadbalancer_enabled: true
   external_dns_enabled: true
   external_secrets_enabled: true
   enable_karpenter: true
+  enable_metrics_server: true
   enable_vpa: false
+  enable_keda: false
   enable_kyverno: false
+  enable_cert_manager: false
+  enable_cloudnative_pg: false
+  enable_barman_cloud_plugin: false
+  enable_kafka_operator: false
   enable_policy_reporter: false
   enable_default_policies: false
   demo_app_enabled: false
-  adp_agent_enabled: false
+  adp_agent_enabled: true
   enable_fluent_bit: false
   enable_prometheus_stack: false
+  opencost_enabled: false
   enable_tempo: false
   enable_loki: false
+  enable_efs_csi: false
   backstage_enabled: false
-  enable_devlake: false
-  enable_gatekeeper: false
+  enable_guest_login: false
 
+  # Azure-specific feature flags
+  enable_traefik: false
+
+  # Shared ingress defaults. Each map is merged from broadest to most specific:
+  # ingress_annotations, <cloud>_ingress_annotations, <app>_ingress_annotations.
+  ingress_class_name: ""
+  aws_ingress_class_name: ""
+  gcp_ingress_class_name: ""
+  azure_ingress_class_name: ""
+  ingress_annotations: {}
+  aws_ingress_annotations: {}
+  gcp_ingress_annotations: {}
+  azure_ingress_annotations: {}
+  backstage_ingress_annotations: {}
+  policy_reporter_ingress_annotations: {}
+  grafana_ingress_annotations: {}
+  alertmanager_ingress_annotations: {}
+  prometheus_ingress_annotations: {}
+  gcp_ingress_managed_certificates_enabled: true
+  gcp_ingress_https_redirect_enabled: true
+  service_account_annotations: {}
+  aws_service_account_annotations: {}
+  gcp_service_account_annotations: {}
+  azure_service_account_annotations: {}
+  external_dns_service_account_annotations: {}
+  external_secrets_service_account_annotations: {}
+  
   aws-load-balancer-controller-version: 1.7.1
   secrets-operator-version: 0.9.12
   external-dns-version: HEAD
@@ -28,10 +63,42 @@ infra-services:
   eks_cluster_name: ~
   vpc_id: ~
   dns_hosted_zone: ~
+  efs_file_system_id: ~
+
+  # Azure-specific variables (used when cloud: azure)
+  azure_subscription_id: ~
+  azure_tenant_id: ~
+  dns_provider: ~
+  dns_private_zone: ~
+  dns_resource_group: ~
+  workload_dns_identity_client_id: ~
+  azure_cert_manager_cluster_issuer: "letsencrypt"
 
 
 storageClass:
-  provisioner: disk.csi.azure.com
-  type: StandardSSD_LRS
+  name: gp3
+  isDefault: "true"
+  allowVolumeExpansion: true
+  provisioner: ebs.csi.aws.com
+  volumeBindingMode: WaitForFirstConsumer
+  type: gp3
   customParameters:
-    skuName: StandardSSD_LRS
+    encrypted: "true"
+
+efsStorageClass:
+  name: efs-sc
+  isDefault: "false"
+  allowVolumeExpansion: true
+  provisioner: efs.csi.aws.com
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+  parameters:
+    provisioningMode: efs-ap
+    directoryPerms: "700"
+    ensureUniqueDirectory: "true"
+    basePath: ""
+    gidRangeStart: ""
+    gidRangeEnd: ""
+    # Advanced optional overrides passed as-is to the EFS CSI StorageClass parameters.
+    # Keep empty for the default dynamic Access Point provisioning flow.
+    additionalParameters: {}

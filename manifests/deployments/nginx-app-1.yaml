@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nginx-app-1
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: nginx-app-1
@@ -19,42 +19,3 @@ spec:
         image: nginx:latest
         ports:
         - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-app-1
-  labels:
-    app: nginx-app-1
-spec:
-  selector:
-    app: nginx-app-1
-  ports:
-  - port: 80
-    targetPort: 80
-    protocol: TCP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: nginx-app-1
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: nginx.adp.csiliev.eu
-    cert-manager.io/cluster-issuer: letsencrypt
-spec:
-  ingressClassName: traefik
-  tls:
-  - hosts:
-    - nginx.adp.csiliev.eu
-    secretName: nginx-app-1-tls
-  rules:
-  - host: nginx.adp.csiliev.eu
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: nginx-app-1
-            port:
-              number: 80
