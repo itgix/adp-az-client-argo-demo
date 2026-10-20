@@ -19,6 +19,7 @@ infra-services:
   azure_tenant_id: 35e55793-1d03-4bb1-99a3-4888c2cda0e0
   backstage_enabled: false
   budget_enabled: false
+  cert_manager_acme_email: nikolay.zdravkov@itgix.com
   cloud: azure
   dns_client_id: ''
   dns_main_domain: adp.csiliev.eu
