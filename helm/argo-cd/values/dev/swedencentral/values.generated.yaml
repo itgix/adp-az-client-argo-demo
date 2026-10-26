@@ -1,7 +1,9 @@
 server:
   ingress:
     annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
       external-dns.alpha.kubernetes.io/hostname: contoso-swedencentral-argocd-dev.adp.csiliev.eu
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
     controller: generic
     hostname: contoso-swedencentral-argocd-dev.adp.csiliev.eu
-    ingressClassName: nginx
+    ingressClassName: traefik
