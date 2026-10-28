@@ -1,13 +1,13 @@
 infra-services:
   adp_agent_enabled: false
-  aks_cluster_fqdn: ojq7heancr-b6tbz76p.hcp.swedencentral.azmk8s.io
+  aks_cluster_fqdn: 4q50cbv46d-g2ea85b9.hcp.swedencentral.azmk8s.io
   aks_cluster_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-aks-dev-swedencentral/providers/Microsoft.ContainerService/managedClusters/aks-contoso-dev-swedencentral
   aks_cluster_name: aks-contoso-dev-swedencentral
   aks_cluster_version: '1.36'
-  aks_controlplane_identity_client_id: 20e77f0d-4b84-47d7-8ef1-a8748fdfe2e3
+  aks_controlplane_identity_client_id: bc1f7923-84f4-4033-a5f5-691141658d38
   aks_controlplane_identity_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-aks-dev-swedencentral/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-aks-controlplane-dev-swedencentral
-  aks_kubelet_identity_client_id: fbcfa79b-4bb7-40cf-8e1e-08cbafe64f94
-  aks_oidc_issuer_url: https://swedencentral.oic.prod-aks.azure.com/35e55793-1d03-4bb1-99a3-4888c2cda0e0/c5816110-4f83-405d-a026-3057c257a8a5/
+  aks_kubelet_identity_client_id: 1fad5158-e119-4f50-8a5f-dae881c91b1c
+  aks_oidc_issuer_url: https://swedencentral.oic.prod-aks.azure.com/35e55793-1d03-4bb1-99a3-4888c2cda0e0/5a50d776-fa90-4f39-85a2-1650e35f750e/
   aks_outbound_type: loadBalancer
   aks_private_cluster: false
   aks_private_dns_zone_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/privateDnsZones/contoso.privatelink.swedencentral.azmk8s.io
@@ -81,7 +81,7 @@ infra-services:
   subnet_postgresql_cidr: 10.10.3.0/24
   terraform_ver: 1.15.8
   vnet_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/virtualNetworks/vnet-dev-swedencentral
-  workload_dns_identity_client_id: 0f66d45e-5d23-4d00-b59e-97f490d15fe4
-  workload_eso_identity_client_id: 66734017-f0a1-44fa-ab18-94edbcdd3dab
+  workload_dns_identity_client_id: b851ac12-589c-4984-acc7-23cc2597b6c3
+  workload_eso_identity_client_id: 406a0381-4bda-4f7c-9881-6351940ea727
   workload_private_dns_zone_ids: {}
   workload_public_dns_zone_ids: {}
