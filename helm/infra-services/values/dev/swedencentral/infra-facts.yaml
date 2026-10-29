@@ -37,6 +37,7 @@ infra-services:
   enable_policy_reporter: false
   enable_prometheus_stack: true
   enable_tempo: false
+  enable_traefik: true
   enable_trivy_operator: true
   enable_vpa: false
   enabled_metrics_server: false
