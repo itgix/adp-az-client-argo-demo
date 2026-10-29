@@ -7,3 +7,4 @@ server:
     controller: generic
     hostname: contoso-swedencentral-argocd-dev.adp.csiliev.eu
     ingressClassName: traefik
+    tls: true
