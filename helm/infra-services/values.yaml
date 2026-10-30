@@ -24,6 +24,8 @@ infra-services:
   enable_efs_csi: false
   backstage_enabled: false
   enable_guest_login: false
+  enable_vault: false
+  enable_vault_ha: false
 
   # Azure-specific feature flags
   enable_traefik: false
@@ -43,6 +45,7 @@ infra-services:
   grafana_ingress_annotations: {}
   alertmanager_ingress_annotations: {}
   prometheus_ingress_annotations: {}
+  vault_ingress_annotations: {}
   gcp_ingress_managed_certificates_enabled: true
   gcp_ingress_https_redirect_enabled: true
   service_account_annotations: {}
@@ -74,6 +77,11 @@ infra-services:
   workload_dns_identity_client_id: ~
   workload_eso_identity_client_id: ~
   azure_cert_manager_cluster_issuer: "letsencrypt"
+
+  # Internal external-dns instance for private DNS zone (Azure only)
+  enable_external_dns_internal: false
+  dns_internal_zone: ~
+  dns_internal_resource_group: ~
 
 
 storageClass:

@@ -1,13 +1,13 @@
 infra-services:
   adp_agent_enabled: false
-  aks_cluster_fqdn: qq284eo357-kvlz860v.hcp.swedencentral.azmk8s.io
+  aks_cluster_fqdn: 9f5itygh6s-wu10qlcp.hcp.swedencentral.azmk8s.io
   aks_cluster_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-aks-dev-swedencentral/providers/Microsoft.ContainerService/managedClusters/aks-contoso-dev-swedencentral
   aks_cluster_name: aks-contoso-dev-swedencentral
   aks_cluster_version: '1.36'
-  aks_controlplane_identity_client_id: 3c9f71a0-3070-4e12-beab-b9dca3725c30
+  aks_controlplane_identity_client_id: 01a64c38-d6b7-40da-8509-775ebb783069
   aks_controlplane_identity_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-aks-dev-swedencentral/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-aks-controlplane-dev-swedencentral
-  aks_kubelet_identity_client_id: b36fb542-5daa-437a-9039-58bb89d83158
-  aks_oidc_issuer_url: https://swedencentral.oic.prod-aks.azure.com/35e55793-1d03-4bb1-99a3-4888c2cda0e0/c81cff1f-dd88-4cde-925a-99e3d592d77e/
+  aks_kubelet_identity_client_id: 79af9cb5-e171-4498-91bd-c7a66c9d9b77
+  aks_oidc_issuer_url: https://swedencentral.oic.prod-aks.azure.com/35e55793-1d03-4bb1-99a3-4888c2cda0e0/946c8213-80dc-4c7e-bc3d-7ecaac33e490/
   aks_outbound_type: loadBalancer
   aks_private_cluster: false
   aks_private_dns_zone_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/privateDnsZones/contoso.privatelink.swedencentral.azmk8s.io
@@ -22,6 +22,8 @@ infra-services:
   cert_manager_acme_email: nikolay.zdravkov@itgix.com
   cloud: azure
   dns_client_id: ''
+  dns_internal_resource_group: rg-network-dev-swedencentral
+  dns_internal_zone: adp.csiliev.internal
   dns_main_domain: adp.csiliev.eu
   dns_private_zone: adp.csiliev.eu
   dns_provider: azure-dns
@@ -29,8 +31,10 @@ infra-services:
   enable_cert_manager: true
   enable_devlake: false
   enable_eso: true
+  enable_external_dns_internal: true
   enable_falco: true
   enable_fluent_bit: false
+  enable_karpenter: true
   enable_kyverno: false
   enable_kyverno_policies: false
   enable_loki: false
@@ -43,13 +47,13 @@ infra-services:
   enabled_metrics_server: false
   env_git_repo: git@github.com:itgix/adp-az-tfinfra-demo.git
   env_template_repo: git@github.com:itgix/adp-tf-envtemplate-standard-az.git
-  env_template_repo_branch: develop
+  env_template_repo_branch: feauture/external-dns-internal
   environment: dev
   external_dns_enabled: true
   external_secrets_enabled: true
   gitops_destination_repo: https://github.com/itgix/adp-az-client-argo-demo.git
   gitops_template_repo: git@github.com:itgix/adp-k8s-templ-argoinfrasvcs.git
-  gitops_template_repo_branch: azure-integration
+  gitops_template_repo_branch: feature/interna-external-dns
   postgresql_administrator_login: psqladmin
   postgresql_administrator_password: ContosoDemo2026!Secure
   postgresql_backup_retention_days: 7
@@ -82,7 +86,7 @@ infra-services:
   subnet_postgresql_cidr: 10.10.3.0/24
   terraform_ver: 1.15.8
   vnet_id: /subscriptions/f7f8b016-64ca-4d42-afad-de91b2eae685/resourceGroups/rg-network-dev-swedencentral/providers/Microsoft.Network/virtualNetworks/vnet-dev-swedencentral
-  workload_dns_identity_client_id: e874e941-cc10-45a9-95b7-4ad4657f01f3
-  workload_eso_identity_client_id: afaae964-71eb-4b6d-a418-baf6c3cd70c4
+  workload_dns_identity_client_id: 9f7b80a1-b00d-4fdf-9dd7-857f1e4662a3
+  workload_eso_identity_client_id: 24029665-8b82-434f-95e8-7e8a70b021c1
   workload_private_dns_zone_ids: {}
   workload_public_dns_zone_ids: {}
